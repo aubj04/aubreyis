@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Snake Game</title>
+
+<style>
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background: #111;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    margin-bottom: 5px;
+}
+
+#score {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+canvas {
+    background: #222;
+    border: 3px solid white;
+    border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="post-preview">
+    <a href="index.html"><h2 class="post-title">Resume</h2></a>
+</div>
+
+<h1>Snake Game 🐍</h1>
+<div id="score">Score: 0</div>
+<canvas id="game" width="400" height="400"></canvas>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+const grid = 20;
+let count = 0;
+let score = 0;
+let gameOver = false;
+
+let snake = {
+    x: 160,
+    y: 160,
+    dx: grid,
+    dy: 0,
+    cells: [],
+    maxCells: 4
+};
+
+let food = {
+    x: 320,
+    y: 320
+};
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function resetGame() {
+    snake.x = 160;
+    snake.y = 160;
+    snake.cells = [];
+    snake.maxCells = 4;
+    snake.dx = grid;
+    snake.dy = 0;
+
+    food.x = getRandomInt(0, 20) * grid;
+    food.y = getRandomInt(0, 20) * grid;
+
+    score = 0;
+    document.getElementById("score").innerText = "Score: 0";
+    gameOver = false;
+}
+
+function drawRoundedRect(x, y, size, color) {
+    const radius = 6;
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.lineTo(x + size - radius, y);
+    ctx.quadraticCurveTo(x + size, y, x + size, y + radius);
+    ctx.lineTo(x + size, y + size - radius);
+    ctx.quadraticCurveTo(x + size, y + size, x + size - radius, y + size);
+    ctx.lineTo(x + radius, y + size);
+    ctx.quadraticCurveTo(x, y + size, x, y + size - radius);
+    ctx.lineTo(x, y + radius);
+    ctx.quadraticCurveTo(x, y, x + radius, y);
+    ctx.fill();
+}
+
+function getGradientColor(index, total) {
+    let ratio = index / total;
+
+    if (ratio < 0.5) {
+        // blue → green
+        let g = Math.floor(255 * (ratio * 2));
+        return `rgb(0, ${g}, 255)`;
+    } else {
+        // green → yellow
+        let r = Math.floor(255 * ((ratio - 0.5) * 2));
+        return `rgb(${r}, 255, 0)`;
+    }
+}
+
+function loop() {
+    requestAnimationFrame(loop);
+
+    if (gameOver) {
+        ctx.fillStyle = "rgba(0,0,0,0.7)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = "white";
+        ctx.font = "30px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText("Game Over", 200, 180);
+        ctx.font = "16px Arial";
+        ctx.fillText("Press SPACE to restart", 200, 220);
+        return;
+    }
+
+    if (++count < 4) return;
+    count = 0;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    snake.x += snake.dx;
+    snake.y += snake.dy;
+
+    // wrap around
+    if (snake.x < 0) snake.x = canvas.width - grid;
+    else if (snake.x >= canvas.width) snake.x = 0;
+
+    if (snake.y < 0) snake.y = canvas.height - grid;
+    else if (snake.y >= canvas.height) snake.y = 0;
+
+    snake.cells.unshift({x: snake.x, y: snake.y});
+
+    if (snake.cells.length > snake.maxCells) {
+        snake.cells.pop();
+    }
+
+    // draw food (pink)
+    ctx.fillStyle = "hotpink";
+    ctx.beginPath();
+    ctx.arc(food.x + grid/2, food.y + grid/2, grid/2.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // draw snake
+    snake.cells.forEach(function(cell, index) {
+        let color = getGradientColor(index, snake.cells.length);
+        drawRoundedRect(cell.x, cell.y, grid-2, color);
+
+        // eat food
+        if (cell.x === food.x && cell.y === food.y) {
+            snake.maxCells++;
+            score++;
+            document.getElementById("score").innerText = "Score: " + score;
+
+            food.x = getRandomInt(0, 20) * grid;
+            food.y = getRandomInt(0, 20) * grid;
+        }
+
+        // self collision
+        for (let i = index + 1; i < snake.cells.length; i++) {
+            if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+                gameOver = true;
+            }
+        }
+    });
+}
+
+// controls
+document.addEventListener("keydown", function(e) {
+    if (e.key === " ") {
+        if (gameOver) resetGame();
+    }
+
+    if (e.key === "ArrowLeft" && snake.dx === 0) {
+        snake.dx = -grid;
+        snake.dy = 0;
+    } else if (e.key === "ArrowUp" && snake.dy === 0) {
+        snake.dy = -grid;
+        snake.dx = 0;
+    } else if (e.key === "ArrowRight" && snake.dx === 0) {
+        snake.dx = grid;
+        snake.dy = 0;
+    } else if (e.key === "ArrowDown" && snake.dy === 0) {
+        snake.dy = grid;
+        snake.dx = 0;
+    }
+});
+
+requestAnimationFrame(loop);
+</script>
+
+</body>
+</html>

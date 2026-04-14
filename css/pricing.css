@@ -1,0 +1,153 @@
+* { box-sizing: border-box; }
+
+body, h1, h2, h3, p {
+    margin: 0;
+}
+
+body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background-color: #faf9f6;
+    color: #2c2c2a;
+    padding: 48px 24px;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    color: #2c2c2a;
+}
+
+.masthead .page-heading h1,
+.masthead .page-heading .subheading {
+    color: #ffffff;
+}
+
+/* FIXED: changed to class */
+
+.section-title {
+    margin-top: 60px;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #888;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+}
+
+/* FIXED: changed to class */
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: center;
+    margin: 48px 0 24px;
+    color: #2c2c2a;
+    border-bottom: 1px solid #d3d1c7;
+    padding-bottom: 12px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 28px 24px;
+    text-align: center;
+}
+
+.card-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #888;
+    margin-bottom: 8px;
+}
+
+.card-price {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #2c2c2a;
+    margin-bottom: 16px;
+}
+
+.card-price span {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #888;
+}
+
+.card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.card ul li {
+    font-size: 0.92rem;
+    color: #5f5e5a;
+    padding: 5px 0;
+    border-bottom: 1px solid #f0ede8;
+    line-height: 1.5;
+}
+
+.card ul li:last-child {
+    border-bottom: none;
+}
+
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.cta {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 9px 22px;
+    border: 1px solid #2c2c2a;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #2c2c2a;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+.cta:hover {
+    background: #2c2c2a;
+    color: #fff;
+}
+
+.grid.single {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+}
+
+footer {
+    text-align: center;
+    margin-top: 60px;
+    font-size: 0.8rem;
+    color: #aaa;
+    letter-spacing: 0.08em;
+}

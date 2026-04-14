@@ -1,0 +1,42 @@
+body {
+    background-color: #f4f1ea; /* custom background */
+    font-family: Arial, sans-serif; /* font family */
+    color: #333; /* font color */
+    margin: 0;
+}
+
+/* NAV BAR */
+.nav {
+    background-color: #222;
+    padding: 15px;
+    text-align: center;
+}
+
+.nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* HEADER */
+.header {
+    text-align: center;
+    padding: 50px;
+    background-color: #ddd;
+}
+
+/* CONTENT BLOCKS */
+.content {
+    margin: 30px auto;
+    padding: 20px;
+    max-width: 800px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+/* IMAGE STYLE */
+img {
+    display: block;
+    margin: 0 auto;
+    border-radius: 10px;
+}
